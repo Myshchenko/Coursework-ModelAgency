@@ -12,14 +12,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Reflection;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Collections.Generic;
+using ModelAgency_Api.Controllers;
 
-namespace ModelAgency_Api.Data
+namespace ModelAgency_Api.Repositories
 {
     public interface IEventRepository
     {
         Task<List<Event>> GetEvents();
 
         Task AddEvent(Event modelEvent);
+
+        Task AddEventManaging(Event modelEvent);
 
         Task UpdateEvent(Event modelEvent);
 
@@ -36,7 +39,7 @@ namespace ModelAgency_Api.Data
 
         public async Task AddEvent(Event modelEvent)
         {
-            const string insertEvent = @"INSERT INTO Event (Id, Type, TargetDate, Address, CreatedAt) 
+            string insertEvent = @"INSERT INTO Event (Id, Type, TargetDate, Address, CreatedAt) 
                                         VALUES (@Id, @Type, @TargetDate, @Address, @CreatedAt)";
 
             using (var connection = new SqliteConnection(connectionString))
@@ -58,7 +61,7 @@ namespace ModelAgency_Api.Data
 
         public async Task DeleteEvent(int Id)
         {
-            const string insertEvent = @"DELETE FROM Event
+            string deleteEvent = @"DELETE FROM Event
                                          Where Id = @Id";
 
             using (var connection = new SqliteConnection(connectionString))
@@ -66,7 +69,7 @@ namespace ModelAgency_Api.Data
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText = insertEvent;
+                command.CommandText = deleteEvent;
 
                 command.Parameters.Add("@Id", SqliteType.Integer).Value = Id;
 
@@ -76,7 +79,9 @@ namespace ModelAgency_Api.Data
 
         public async Task<List<Event>> GetEvents()
         {
-            const string getAllEvents = @"SELECT * FROM Event";
+            const string getAllEvents = @" SELECT Id, Type, TargetDate, Address, CreatedAt, CreatedBy
+                                           FROM Event JOIN EventManaging ON Event.Id == EventManaging.EventId";
+
             List<Event> events = new List<Event>();
 
             using (var connection = new SqliteConnection(connectionString))
@@ -100,6 +105,8 @@ namespace ModelAgency_Api.Data
                         {
                             modelEvent.CreatedAt = reader.GetValue(4) == null ? null : DateTime.Parse(reader.GetString(4));
                         }
+
+                        modelEvent.CreatedBy = reader.GetInt32(5);
 
                         events.Add(modelEvent);
                     }
@@ -130,6 +137,25 @@ namespace ModelAgency_Api.Data
                 command.Parameters.Add("@TargetDate", SqliteType.Text).Value = modelEvent.TargetDate;
                 command.Parameters.Add("@Address", SqliteType.Text).Value = modelEvent.Address;
                 command.Parameters.Add("@CreatedAt", SqliteType.Text).Value = modelEvent.CreatedAt;
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        public async Task AddEventManaging(Event modelEvent)
+        {
+            const string insertEvent = @"INSERT INTO EventManaging (EventId, CreatedBy) 
+                                        VALUES (@EventId, @CreatedBy)";
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = insertEvent;
+
+                command.Parameters.Add("@EventId", SqliteType.Integer).Value = modelEvent.Id;
+                command.Parameters.Add("@CreatedBy", SqliteType.Integer).Value = modelEvent.CreatedBy;
 
                 await command.ExecuteNonQueryAsync();
             }

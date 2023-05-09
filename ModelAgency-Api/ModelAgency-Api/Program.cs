@@ -1,4 +1,4 @@
-using ModelAgency_Api.Data;
+using ModelAgency_Api.Repositories;
 using ModelAgency_Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);

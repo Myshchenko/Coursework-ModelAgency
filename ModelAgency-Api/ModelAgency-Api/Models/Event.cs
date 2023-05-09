@@ -3,6 +3,7 @@
     public class Event
     {
         public int Id { get; set; }
+        public int CreatedBy { get; set; }
         public EventType EventType { get; set; }
 
         public DateTime TargetDate { get; set; }

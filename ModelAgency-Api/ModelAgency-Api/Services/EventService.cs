@@ -1,5 +1,5 @@
-﻿using ModelAgency_Api.Data;
-using ModelAgency_Api.Models;
+﻿using ModelAgency_Api.Models;
+using ModelAgency_Api.Repositories;
 
 namespace ModelAgency_Api.Services
 {
@@ -26,6 +26,7 @@ namespace ModelAgency_Api.Services
         public async Task AddEvent(Event modelEvent)
         {
             await _eventRepository.AddEvent(modelEvent);
+            await _eventRepository.AddEventManaging(modelEvent);
         }
 
         public async Task DeleteEvent(int Id)
