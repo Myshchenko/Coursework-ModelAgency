@@ -11,6 +11,10 @@ builder.Services.AddScoped<IEventService, EventService>();
 
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 
+builder.Services.AddScoped<IModelService, ModelService>();
+
+builder.Services.AddScoped<IModelRepository, ModelRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
