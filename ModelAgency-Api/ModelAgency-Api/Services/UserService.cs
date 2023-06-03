@@ -19,7 +19,18 @@ namespace ModelAgency_Api.Services
 
         public Task<User> Login(User user)
         {
-            return _userRepository.Login(user);
+            var loggedInUser = _userRepository.Login(user);
+
+            if (loggedInUser.Result.IsValid())
+            {
+               return loggedInUser;
+            }
+            else
+            {
+               throw new Exception("Invalid user");
+            }
+
+            
         }
     }
 }

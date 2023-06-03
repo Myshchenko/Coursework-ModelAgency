@@ -26,18 +26,29 @@ export class AddEventPageComponent {
 
   addEvent(){
     if(this.event){
+      try {
       const userId = localStorage.getItem('userId');
       if (userId !== null) {
       this.event.createdBy = parseInt(userId);
     }
 
       this.eventService.addEvent(this.event);
+      //this.router.navigate(['/events']);
     }
+   catch (error){
+    console.log("AAAAAAAAAA ERRRRRRRRRRROOOOOOOOOOR");
+  }}
   }
 
   updateEvent(){
     if(this.event){
+      try {
       this.eventService.updateEvent(this.event);
+      //this.router.navigate(['/events']);
+      }
+      catch (error){
+        console.log("AAAAAAAAAA ERRRRRRRRRRROOOOOOOOOOR");
+      }
     }
   }
 

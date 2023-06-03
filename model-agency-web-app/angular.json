@@ -92,6 +92,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "node_modules/ngx-toastr/toastr.css",
               {
                 "glob": "**/*",
                 "input": "src/assets/fonts",

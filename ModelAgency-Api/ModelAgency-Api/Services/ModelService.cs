@@ -5,7 +5,7 @@ namespace ModelAgency_Api.Services
 {
     public interface IModelService
     {
-        Task<IEnumerable<Model>> GetModels();
+        Task<List<Model>> GetModels();
     }
 
     public class ModelService : IModelService
@@ -18,7 +18,7 @@ namespace ModelAgency_Api.Services
         }
 
 
-        public async Task<IEnumerable<Model>> GetModels()
+        public async Task<List<Model>> GetModels()
         {
             return await _modelRepository.GetModels();
         }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, throwError } from 'rxjs';
 import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/UserService';
 
@@ -15,7 +17,7 @@ export class HeaderComponent {
   userId: number = -1;
   roleId: number = -1;
 
-  constructor(private router: Router, private userService: UserService){
+  constructor(private router: Router, private userService: UserService, private toastr: ToastrService){
     
     const role_id = localStorage.getItem('roleId');
 
@@ -32,7 +34,14 @@ export class HeaderComponent {
 
   login() {
     console.log(this.user);
-    this.userService.login(this.user!).subscribe(
+    this.userService.login(this.user!)
+    .pipe(
+      catchError((error) => {
+        this.toastr.error("Такого користвувача немає в системі.");
+        return throwError('An error occurred.');
+      })
+    )
+    .subscribe(
       (response: any) => {
         this.user = response as User;
 

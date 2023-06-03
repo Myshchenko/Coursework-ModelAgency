@@ -16,11 +16,25 @@ namespace ModelAgency_Api.Controllers
         }
 
         [HttpGet()]
-        public async Task<IEnumerable<SortedReportData>> GetReportData()
+        public async Task<ActionResult<IEnumerable<SortedReportData>>> GetReportData()
         {
-            var events = await _reportService.GetReportData();
+            try
+            {
+var reportData = await _reportService.GetReportData();
 
-            return events;
+                if(reportData != null)
+                {
+                    return reportData;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

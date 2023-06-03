@@ -16,9 +16,26 @@ namespace ModelAgency_Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<User> Login(User user)
+        public async Task<ActionResult<User>> Login(User user)
         {
-            return await _userService.Login(user);
+            try
+            {
+                User? loggedInUser = await _userService.Login(user);
+
+                if(loggedInUser != null)
+                {
+                    return loggedInUser;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
     }
 }

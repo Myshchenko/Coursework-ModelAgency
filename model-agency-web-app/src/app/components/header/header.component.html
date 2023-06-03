@@ -52,9 +52,9 @@
             
                 <form #loginForm="ngForm" class="d-flex" autocomplete="off" (ngSubmit)="login()">
                     <input name="username" [(ngModel)]="this.user!.email" class="form-control me-2" type="text"
-                        placeholder="Email">
+                        placeholder="Поштова адреса">
                     <input name="password" [(ngModel)]="this.user!.password" class="form-control me-2" type="password"
-                        placeholder="Password">
+                        placeholder="Пароль">
                     <button class="btn btn-success" type="submit">Вхід</button>
                 </form>
           

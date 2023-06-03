@@ -5,10 +5,11 @@ namespace ModelAgency_Api.Services
 {
     public interface IEventService
     {
-        Task<IEnumerable<Event>> GetEvents();
+        Task<List<Event>> GetEvents();
 
         Task<List<ModelEvent>> GetEventsForModel(int modelId);
-        Task<List<Event>> GetAvailableEventsForSpecificModel(int modelId);  
+
+        Task<List<Event>> GetAvailableEventsForSpecificModel(int modelId);
 
         Task AddEvent(Event modelEvent);
         Task AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates);
@@ -32,8 +33,16 @@ namespace ModelAgency_Api.Services
         public async Task AddEvent(Event modelEvent)
         {
             modelEvent.CreatedAt = DateTime.Now;
-            await _eventRepository.AddEvent(modelEvent);
-            await _eventRepository.AddEventManaging(modelEvent);
+
+            if (modelEvent.IsValid())
+            {
+                await _eventRepository.AddEvent(modelEvent);
+                await _eventRepository.AddEventManaging(modelEvent);
+            }
+            else
+            {
+                throw new Exception("Invalid Event");
+            }
         }
 
         public async Task AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates)
@@ -46,7 +55,7 @@ namespace ModelAgency_Api.Services
             await _eventRepository.DeleteEvent(Id);
         }
 
-        public async Task<IEnumerable<Event>> GetEvents()
+        public async Task<List<Event>> GetEvents()
         {
             var events = await _eventRepository.GetEvents();
 

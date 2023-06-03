@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModelAgency_Api.Models;
 using ModelAgency_Api.Services;
-using System.Collections;
 
 namespace ModelAgency_Api.Controllers
 {
@@ -17,58 +16,147 @@ namespace ModelAgency_Api.Controllers
         }
 
         [HttpGet()]
-        public async Task<IEnumerable<Event>> GetEvents()
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
         {
-            var events = await _eventService.GetEvents();
+            try
+            {
+                var events = await _eventService.GetEvents();
 
-            return events;
+                if(events != null)
+                {
+                    return events;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("eventsForModel")]
-        public async Task<IEnumerable<ModelEvent>> GetEventsForModel(int id)
+        public async Task<ActionResult<IEnumerable<ModelEvent>>> GetEventsForModel(int id)
         {
-            return await _eventService.GetEventsForModel(id);
+            try
+            {
+                var events = await _eventService.GetEventsForModel(id);
+
+                if (events != null)
+                {
+                    return events;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("availableEventsForSpecificModel")]
-        public async Task<IEnumerable<Event>> GetAvailableEventsForSpecificModel(int modelId)
+        public async Task<ActionResult<IEnumerable<Event>>> GetAvailableEventsForSpecificModel(int modelId)
         {
-            return await _eventService.GetAvailableEventsForSpecificModel(modelId);
+            try
+            {
+                var events = await _eventService.GetAvailableEventsForSpecificModel(modelId);
+
+                if (events != null)
+                {
+                    return events;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         [Route("addModelToTheEvent")]
-        public async Task AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates)
+        public async Task<IActionResult> AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates)
         {
-            await _eventService.AddModelToTheEvent(modelEventCoordinates);
+            try
+            {
+                await _eventService.AddModelToTheEvent(modelEventCoordinates);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task AddEvents(Event specificEvent)
+        public async Task<IActionResult> AddEvent(Event specificEvent)
         {
-            await _eventService.AddEvent(specificEvent);
+            try
+            {
+                await _eventService.AddEvent(specificEvent);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
         [Route("update")]
-        public async Task UpdateEvent(Event modelEvent)
+        public async Task<IActionResult> UpdateEvent(Event modelEvent)
         {
-            await _eventService.UpdateEvent(modelEvent);
+            try
+            {
+                await _eventService.UpdateEvent(modelEvent);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpPut]
         [Route("updateModelEventResponce")]
-        public async Task UpdateModelEventResponce(ModelEventCoordinates modelEventCoordinates)
+        public async Task<IActionResult> UpdateModelEventResponce(ModelEventCoordinates modelEventCoordinates)
         {
-            await _eventService.UpdateModelEventResponce(modelEventCoordinates);
+            try
+            {
+                await _eventService.UpdateModelEventResponce(modelEventCoordinates);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public async Task DeleteEvent(int Id)
+        public async Task<IActionResult> DeleteEvent(int Id)
         {
-            await _eventService.DeleteEvent(Id);
+            try
+            {
+                await _eventService.DeleteEvent(Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

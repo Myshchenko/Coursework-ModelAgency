@@ -5,7 +5,7 @@ namespace ModelAgency_Api.Services
 {
     public interface IReportService
     {
-        Task<IEnumerable<SortedReportData>> GetReportData();
+        Task<List<SortedReportData>> GetReportData();
     }
 
     public class ReportService : IReportService
@@ -18,7 +18,7 @@ namespace ModelAgency_Api.Services
         }
 
 
-        public async Task<IEnumerable<SortedReportData>> GetReportData()
+        public async Task<List<SortedReportData>> GetReportData()
         {
             var reports = await _reportRepository.GetReportData();
 

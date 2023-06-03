@@ -58,6 +58,7 @@ namespace ModelAgency_Api.Repositories
                         model.Hips = reader.GetDouble(7);
                         model.Hair = reader.GetString(8);
                         model.Email = reader.GetString(9);
+                        model.Email = reader.GetString(10);
 
                         models.Add(model);
                     }

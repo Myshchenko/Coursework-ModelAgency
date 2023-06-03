@@ -61,9 +61,7 @@ export class EventCardComponent {
   }
 
   deteleEvent(){
-    this.eventService.deletePhoto(this.event!.id).subscribe(() => {
-      window.location.reload();
-    });;
+    this.eventService.deletePhoto(this.event!.id);
   }
 }
 

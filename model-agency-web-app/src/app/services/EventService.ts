@@ -1,11 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of, take } from 'rxjs';
+import { Observable, catchError, map, of, take, tap, throwError } from 'rxjs';
 import { environment } from 'src/environment';
 import { Event } from '../models/Event';
 import { ModelEvent } from '../models/ModelEvent';
 import { AddModelToEventComponent } from '../components/add-model-to-event/add-model-to-event.component';
 import { ModelEventCoordinates } from '../models/ModelEventCoordinates';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class EventService {
 
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) {
   }
 
   getEvents(){
@@ -32,30 +34,69 @@ export class EventService {
   }
 
   updateModelResponce(modelEventCoordinates: ModelEventCoordinates){
-    return this.http.put(this.baseUrl + 'event/updateModelEventResponce', modelEventCoordinates).subscribe(() => {
-      window.location.reload();
-    });;
+    return this.http.put(this.baseUrl + 'event/updateModelEventResponce', modelEventCoordinates)
+    .pipe(
+      catchError((error) => {
+        this.toastr.error("Щось пішло не так. Повторіть запит пізніше.");
+        return throwError('An error occurred while accepting/declining the event.');
+      })
+    ).subscribe(() => {
+      this.toastr.success("Відповідь прийнята.");
+      setTimeout(() => {window.location.reload();}, 1000);
+    });
   }
 
   addEvent(event: Event){
-    return this.http.post(this.baseUrl + 'event/add', event).subscribe(() => {
-      console.log("ss");
-    });;
+    return this.http.post(this.baseUrl + 'event/add', event)
+    .pipe(
+      catchError((error) => {
+        this.toastr.error("Щось пішло не так. Перевірте правильність введення даних.");
+        return throwError('An error occurred while adding the event.');
+      })
+    )
+    .subscribe(() => {
+      console.log('Event added successfully');
+      this.toastr.success("Захід додано.");
+      setTimeout(() => {this.router.navigate(['/events']);}, 1000);
+    });
   }
 
   addModelToTheEvent(modelEventCoordinates: ModelEventCoordinates){
-    return this.http.post(this.baseUrl + 'event/addModelToTheEvent', modelEventCoordinates).subscribe(() => {
-      console.log("ok");
-    });;
+    return this.http.post(this.baseUrl + 'event/addModelToTheEvent', modelEventCoordinates)
+    .pipe(
+      catchError((error) => {
+        this.toastr.error("Щось пішло не так. Повторіть запит пізніше.");
+        return throwError('An error occurred.');
+      })
+    ).subscribe(() => {
+      this.toastr.success("Модель додана до заходу.");
+      setTimeout(() => {this.router.navigate(['/models']);}, 1000);
+    });
   }
 
   updateEvent(event: Event){
-    return this.http.put(this.baseUrl + 'event/update', event).subscribe(() => {
-      console.log("event updated");
-    });;
+    return this.http.put(this.baseUrl + 'event/update', event)
+    .pipe(
+      catchError((error) => {
+        this.toastr.error("Щось пішло не так. Повторіть запит пізніше.");
+        return throwError('An error occurred.');
+      })
+    ).subscribe(() => {
+      this.toastr.success("Захід оновено.");
+      setTimeout(() => {this.router.navigate(['/events']);}, 1000);
+    });
   }
 
   deletePhoto(eventId: number) {
-    return this.http.delete(this.baseUrl + 'event/delete/' + eventId);
+    return this.http.delete(this.baseUrl + 'event/delete/' + eventId)
+    .pipe(
+      catchError((error) => {
+        this.toastr.error("Щось пішло не так. Повторіть запит пізніше.");
+        return throwError('An error occurred.');
+      })
+    ).subscribe(() => {
+      this.toastr.success("Захід видалено.");
+      setTimeout(() => {window.location.reload();}, 1000);
+    });
   }
 }

@@ -17,9 +17,25 @@ namespace ModelAgency_Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Model>> GetModels()
+        public async Task<ActionResult<IEnumerable<Model>>> GetModels()
         {
-            return await _modelService.GetModels();
+            try
+            {
+                var models =  await _modelService.GetModels();
+
+                if (models != null)
+                {
+                    return models;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
