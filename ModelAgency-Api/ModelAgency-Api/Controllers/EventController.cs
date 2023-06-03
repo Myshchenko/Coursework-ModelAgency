@@ -24,11 +24,30 @@ namespace ModelAgency_Api.Controllers
             return events;
         }
 
+        [HttpGet("eventsForModel")]
+        public async Task<IEnumerable<ModelEvent>> GetEventsForModel(int id)
+        {
+            return await _eventService.GetEventsForModel(id);
+        }
+
+        [HttpGet("availableEventsForSpecificModel")]
+        public async Task<IEnumerable<Event>> GetAvailableEventsForSpecificModel(int modelId)
+        {
+            return await _eventService.GetAvailableEventsForSpecificModel(modelId);
+        }
+
+        [HttpPost]
+        [Route("addModelToTheEvent")]
+        public async Task AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates)
+        {
+            await _eventService.AddModelToTheEvent(modelEventCoordinates);
+        }
+
         [HttpPost]
         [Route("add")]
-        public async Task AddEvents(Event modelEvent)
+        public async Task AddEvents(Event specificEvent)
         {
-            await _eventService.AddEvent(modelEvent);
+            await _eventService.AddEvent(specificEvent);
         }
 
         [HttpPut]
@@ -36,6 +55,13 @@ namespace ModelAgency_Api.Controllers
         public async Task UpdateEvent(Event modelEvent)
         {
             await _eventService.UpdateEvent(modelEvent);
+        }
+
+        [HttpPut]
+        [Route("updateModelEventResponce")]
+        public async Task UpdateModelEventResponce(ModelEventCoordinates modelEventCoordinates)
+        {
+            await _eventService.UpdateModelEventResponce(modelEventCoordinates);
         }
 
         [HttpDelete]

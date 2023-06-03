@@ -1,0 +1,30 @@
+<div class="container py-5">
+    <div class="row py-5">
+        <form class="col-md-9 m-auto" method="post" role="form">
+            <div class="col-md-6">
+                <ul class="list-inline shop-top-menu pb-3 pt-1">
+                    <li class="list-inline-item">
+                        <a class="h3 text-dark text-decoration-none mr-3" href="/models"><u>Назад</u></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 mb-3">
+                    <label for="inputname">Ви збираєтеся додати {{model!.name}} {{model!.surname}} до заходу.</label>
+                </div>
+            </div>
+
+            <select class="form-control" (change)="onSelectEvent($event)">
+                <option *ngFor="let modelEvent of events" [value]="modelEvent.id">
+                    {{ modelEvent.details }}, адреса: {{modelEvent.address}}
+                </option>
+            </select>
+
+            <div class="row">
+                <div class="col text-end mt-2">
+                    <button type="submit" class="btn btn-success btn-lg px-3" (click)="addModelToTheEvent()">Підтвердити</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="bi bi-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none"
+                    href="mailto:info@company.com">info@models.com</a>
+                <i class="bi bi-telephone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <a class="navbar-brand text-success logo h1 align-self-center" routerLink="">
+            Zay
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div *ngIf="this.userId !== -1 && this.userId !== undefined"
+            class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
+            id="templatemo_main_nav">
+
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="redirectToModelPage()" >Моделі</a>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="redirectToEventPage()">Заходи</a>
+                    </li>
+                    <li class="nav-item" *ngIf="this.roleId === 2">
+                        <a class="nav-link" routerLink="/reports">Звіти</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <a class="navbar-sm-brand text-light text-decoration-none" (click)="logout()">Вихід</a>
+            </div>
+        </div>
+
+        <div *ngIf="this.userId === -1 || this.userId === undefined"
+            class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
+            id="templatemo_main_nav">
+            
+                <form #loginForm="ngForm" class="d-flex" autocomplete="off" (ngSubmit)="login()">
+                    <input name="username" [(ngModel)]="this.user!.email" class="form-control me-2" type="text"
+                        placeholder="Email">
+                    <input name="password" [(ngModel)]="this.user!.password" class="form-control me-2" type="password"
+                        placeholder="Password">
+                    <button class="btn btn-success" type="submit">Вхід</button>
+                </form>
+          
+        </div>
+    </div>
+</nav>

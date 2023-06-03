@@ -1,0 +1,33 @@
+<div class="card mb-4 product-wap rounded-0">
+    <h5 class="card-header"></h5>
+    <div class="card-body">
+        <h5 class="card-title">{{report!.details}}</h5>
+        <p class="card-text">{{report!.address}}, {{report!.targetDate}}</p>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="inputname">Запит прийняли:
+                    <label *ngFor="let r of report!.acceptedUsers">
+                         {{r + ';'}}
+                    </label>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="inputname">Запит відхилили: 
+                    <label *ngFor="let r of report!.declinedUsers">
+                        {{r + ';'}}
+                    </label>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="inputname">Не відповіли на запрошення:
+                    <label *ngFor="let r of report!.notReviewedUsers">
+                        {{r + ';'}}
+                    </label>
+                </label>
+            </div>
+        </div>
+    </div>

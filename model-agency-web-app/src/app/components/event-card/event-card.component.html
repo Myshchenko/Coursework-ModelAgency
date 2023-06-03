@@ -1,0 +1,27 @@
+<div class="card mb-4 product-wap rounded-0" *ngIf="event != undefined">
+  <h5 class="card-header"></h5>
+  <div class="card-body">
+    <h5 class="card-title">{{event.details}}</h5>
+    <p class="card-text">{{event.address}}</p>
+    <p class="card-text">{{event.targetDate}}</p>
+
+    <div *ngIf="event.eventType === 'Фотосесія'">
+      <p><span class="badge bg-primary">{{event.eventType}}</span></p>
+    </div>
+
+    <div *ngIf="event.eventType === 'Показ'">
+      <p><span class="badge bg-warning text-dark">{{event.eventType}}</span></p>
+    </div>
+
+    <div *ngIf="roleId === 2">
+      <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy"
+      (click)="redirectToAddEventPage(event)">Оновити</button>
+      <button type="menu" class="mx-1 btn btn-success btn-lg" name="submit" value="buy" (click)="deteleEvent()">Видалити</button>
+    </div>
+
+    <div *ngIf="roleId === 1 && status == 'Not reviewed'">
+      <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy" (click)="acceptEvent()">Прийняти</button>
+      <button type="menu" class="mx-1 btn btn-success btn-lg" name="submit" value="buy" (click)="declineEvent()">Відхилити</button>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,22 @@
+<div class="container py-5">
+    <div class="row  center-models">
+        <div class="col-lg-9">
+            <div class="row">
+
+
+                <div class="mb-2">
+                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy"
+                        (click)="generatePDF()">Отримати звіт з підтвердженими учасниками</button>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div *ngFor="let report of sortedReportData">
+                    <app-report-card [report]="report"></app-report-card>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

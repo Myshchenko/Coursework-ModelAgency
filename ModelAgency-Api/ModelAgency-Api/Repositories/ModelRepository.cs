@@ -10,12 +10,28 @@ namespace ModelAgency_Api.Repositories
 
     public class ModelRepository : IModelRepository
     {
-        private readonly string connectionString = "Data Source=C:\\Users\\Julia\\Desktop\\projects\\Coursework-ModelAgency\\ModelAgency.db;Mode=ReadWrite;";
+        private readonly IConfiguration _configuration;
+        private string connectionString;
+
+        public ModelRepository(IConfiguration configuration)
+        {
+            _configuration = configuration;
+
+            string? conStr = _configuration["ConnectionString"];
+            if (!string.IsNullOrEmpty(conStr))
+            {
+                connectionString = conStr;
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
+        }
 
         public async Task<List<Model>> GetModels()
         {
-            const string getAllModels = @" SELECT *
-                                           FROM Model";
+            const string getAllModels = @"SELECT User.Id, User.Name, User.Surname, Model.Height, Model.Weight, Model.Chest, Model.Waist, Model.Hips, Model.Shoes, Model.Hair, User.Email
+                                          FROM User join Model ON User.Id == Model.ModelId";
 
             List<Model> models = new List<Model>();
 
@@ -35,12 +51,12 @@ namespace ModelAgency_Api.Repositories
                         model.Id = reader.GetInt32(0);
                         model.Name = reader.GetString(1);
                         model.Surname = reader.GetString(2);
-                        model.DateOfBith = DateTime.Parse(reader.GetString(3));
-                        model.Height = reader.GetInt32(4);
-                        model.Weight = reader.GetInt32(5);
-                        model.Chest = reader.GetInt32(6);
-                        model.Waist = reader.GetInt32(7);
-                        model.Hips = reader.GetInt32(8);
+                        model.Height = reader.GetDouble(3);
+                        model.Weight = reader.GetDouble(4);
+                        model.Chest = reader.GetDouble(5);
+                        model.Waist = reader.GetDouble(6);
+                        model.Hips = reader.GetDouble(7);
+                        model.Hair = reader.GetString(8);
                         model.Email = reader.GetString(9);
 
                         models.Add(model);

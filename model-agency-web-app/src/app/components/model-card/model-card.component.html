@@ -1,0 +1,26 @@
+<div class="card mb-4 product-wap rounded-0">
+    <div class="card rounded-0">
+        <img class="card-img rounded-0 img-fluid" src="assets/images/{{model!.name}}{{model!.surname}}.jpg">
+        <div class="card-img-overlay rounded-0  d-flex align-items-center justify-content-center">
+        </div>
+    </div>
+    <div class="card-body">
+        <b>{{model!.name}} {{model!.surname}}</b>
+        <div class="models-info">
+            <p>Зріст: {{model!.height}}</p>
+            <p>Обхват грудей: {{model!.chest}}</p>
+            <p>Обхват талії: {{model!.waist}}</p>
+            <p>Обхват стегон: : {{model!.hips}}</p>
+            <!-- <p>Розмір взуття: {{model!.shoes}}</p> -->
+            <p>Розмір взуття: 39</p>
+            <p>Колір волосся: {{model!.hair}}</p>
+        </div>
+    </div>
+
+    <div class="row mb-2 m-auto" *ngIf="this.roleId === 2">
+        <div class="col d-grid">
+          <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy"
+            (click)="redirectToEventPage(model)">Додати до заходу</button>
+        </div>
+      </div>
+</div>

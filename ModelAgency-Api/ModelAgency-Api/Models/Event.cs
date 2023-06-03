@@ -1,13 +1,18 @@
-﻿namespace ModelAgency_Api.Models
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
+
+namespace ModelAgency_Api.Models
 {
     public class Event
     {
-        public int Id { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int Id { get; set; } = 0;
+        public string Details { get; set; } = string.Empty;
         public int CreatedBy { get; set; }
-        public EventType EventType { get; set; }
+        public string EventType { get; set; } = string.Empty;
 
         public DateTime TargetDate { get; set; }
-        public string Address { get; set; } = String.Empty;
+        public string Address { get; set; } = string.Empty;
 
         public DateTime? CreatedAt { get; set; }
     }

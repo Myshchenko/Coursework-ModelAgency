@@ -7,9 +7,15 @@ namespace ModelAgency_Api.Services
     {
         Task<IEnumerable<Event>> GetEvents();
 
+        Task<List<ModelEvent>> GetEventsForModel(int modelId);
+        Task<List<Event>> GetAvailableEventsForSpecificModel(int modelId);  
+
         Task AddEvent(Event modelEvent);
+        Task AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates);
 
         Task UpdateEvent(Event modelEvent);
+
+        Task UpdateModelEventResponce(ModelEventCoordinates modelEventCoordinates);
 
         Task DeleteEvent(int Id);
     }
@@ -25,8 +31,14 @@ namespace ModelAgency_Api.Services
 
         public async Task AddEvent(Event modelEvent)
         {
+            modelEvent.CreatedAt = DateTime.Now;
             await _eventRepository.AddEvent(modelEvent);
             await _eventRepository.AddEventManaging(modelEvent);
+        }
+
+        public async Task AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates)
+        {
+            await _eventRepository.AddModelToTheEvent(modelEventCoordinates);
         }
 
         public async Task DeleteEvent(int Id)
@@ -41,9 +53,24 @@ namespace ModelAgency_Api.Services
             return events;
         }
 
+        public async Task<List<ModelEvent>> GetEventsForModel(int modelId)
+        {
+            return await _eventRepository.GetEventsForModel(modelId);
+        }
+
+        public async Task<List<Event>> GetAvailableEventsForSpecificModel(int modelId)
+        {
+            return await _eventRepository.GetAvailableEventsForSpecificModel(modelId);
+        }
+
         public async Task UpdateEvent(Event modelEvent)
         {
             await _eventRepository.UpdateEvent(modelEvent);
+        }
+
+        public async Task UpdateModelEventResponce(ModelEventCoordinates modelEventCoordinates)
+        {
+            await _eventRepository.UpdateModelEventResponce(modelEventCoordinates);
         }
     }
 }

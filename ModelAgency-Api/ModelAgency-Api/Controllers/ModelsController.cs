@@ -17,7 +17,7 @@ namespace ModelAgency_Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Model>> GetEvents()
+        public async Task<IEnumerable<Model>> GetModels()
         {
             return await _modelService.GetModels();
         }
