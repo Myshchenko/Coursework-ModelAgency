@@ -5,24 +5,32 @@
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Всі</a>
+                            <a class="h3 text-dark text-decoration-none mr-3" (click)="showAllEvents()">Всі</a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Майбутні</a>
+                            <a class="h3 text-dark text-decoration-none mr-3" (click)="showFutureEvents()">Майбутні</a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Минулі</a>
+                            <a class="h3 text-dark text-decoration-none" (click)="showPastEvents()">Минулі</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none" (click)="showTodayEvents()">Сьогодні</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-md-6 pb-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                        <div class="input-group-text">
-                            <i class="bi bi-search"></i>
-                        </div>
-                    </div>
+                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" (click)="showShowEvents()">Покази</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" (click)="showPhotoshootEvents()">Фотосесії</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" (click)="showAllEvents()">Всі</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -31,11 +39,43 @@
                     <button type="menu" class="mx-1 btn btn-success btn-lg" name="submit" value="buy"
                     (click)="redirectToAddEventPage()">Додати захід</button>
                 </div>
-                <div class="row">
+
+                <div class="row" *ngIf="events && (filterParameter === 'All' && filterEventTypeParameter === 'All')">
                     <div *ngFor="let event of events">
                         <app-event-card [event]="event" [status]="''" [currentUser]="this.currentUser"></app-event-card>
                     </div>
                 </div>
+
+                <div class="row" *ngIf="events && filterParameter === 'Future'">
+                    <div *ngFor="let event of filteredFutureEvents">
+                        <app-event-card [event]="event" [status]="''" [currentUser]="this.currentUser"></app-event-card>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="events && filterParameter === 'Past'">
+                    <div *ngFor="let event of filteredPastEvents">
+                        <app-event-card [event]="event" [status]="''" [currentUser]="this.currentUser"></app-event-card>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="events && filterParameter === 'Today'">
+                    <div *ngFor="let event of filteredTodayEvents">
+                        <app-event-card [event]="event" [status]="''" [currentUser]="this.currentUser"></app-event-card>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="events && filterEventTypeParameter === 'Show'">
+                    <div *ngFor="let event of filteredShowEvents">
+                        <app-event-card [event]="event" [status]="''" [currentUser]="this.currentUser"></app-event-card>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="events && filterEventTypeParameter === 'Photoshoot'">
+                    <div *ngFor="let event of filteredPhotoshootEvents">
+                        <app-event-card [event]="event" [status]="''" [currentUser]="this.currentUser"></app-event-card>
+                    </div>
+                </div>
+    
             </div>
 
             <div *ngIf="this.roleId === 1">
@@ -45,7 +85,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="eventsToReview!.length > 0">
+                <div *ngIf="eventsToReview!.length > 0" >
                     <div class="row">
                         <div *ngFor="let event of eventsToReview">
                             <app-event-card [event]="event" [status]="'Not reviewed'"
@@ -68,7 +108,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="approvedEvents!.length > 0">
+                <div *ngIf="approvedEvents!.length > 0 && (filterParameter === 'All' && filterEventTypeParameter === 'All')">
                     <div class="row">
                         <div *ngFor="let event of approvedEvents">
                             <app-event-card [event]="event" [status]="'Accepted'"
@@ -76,6 +116,52 @@
                         </div>
                     </div>
                 </div>
+
+                <div *ngIf="filteredApprovedFutureEvents!.length > 0 && filterParameter === 'Future'">
+                    <div class="row">
+                        <div *ngFor="let event of filteredApprovedFutureEvents">
+                            <app-event-card [event]="event" [status]="'Accepted'"
+                                [currentUser]="currentUser"></app-event-card>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="filteredApprovedPastEvents!.length > 0 && filterParameter === 'Past'">
+                    <div class="row">
+                        <div *ngFor="let event of filteredApprovedPastEvents">
+                            <app-event-card [event]="event" [status]="'Accepted'"
+                                [currentUser]="currentUser"></app-event-card>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="filteredApprovedTodayEvents!.length > 0 && filterParameter === 'Today'">
+                    <div class="row">
+                        <div *ngFor="let event of filteredApprovedTodayEvents">
+                            <app-event-card [event]="event" [status]="'Accepted'"
+                                [currentUser]="currentUser"></app-event-card>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="filteredShowEvents!.length > 0 && filterEventTypeParameter === 'Show'">
+                    <div class="row">
+                        <div *ngFor="let event of filteredShowEvents">
+                            <app-event-card [event]="event" [status]="'Accepted'"
+                                [currentUser]="currentUser"></app-event-card>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="filteredPhotoshootEvents!.length > 0 && filterEventTypeParameter === 'Photoshoot'">
+                    <div class="row">
+                        <div *ngFor="let event of filteredPhotoshootEvents">
+                            <app-event-card [event]="event" [status]="'Accepted'"
+                                [currentUser]="currentUser"></app-event-card>
+                        </div>
+                    </div>
+                </div>
+
                 <div *ngIf="approvedEvents?.length == 0">
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">

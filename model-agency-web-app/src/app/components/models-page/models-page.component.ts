@@ -14,6 +14,11 @@ export class ModelsPageComponent {
 
   currentUser: User = {} as User;
 
+  filterParameter: string = 'All';
+
+  women: Model[] = [];
+  men: Model[] = [];
+
   constructor(private router: Router, private modelService: ModelService) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
@@ -34,4 +39,21 @@ export class ModelsPageComponent {
     });
   }
 
+  showMen() {
+    if (this.models) {
+      this.filterParameter = "Men";
+      this.men = this.models.filter(model => model.genderId === 1);
+    }
+  }
+
+  showWomen() {
+    if (this.models) {
+      this.filterParameter = "Women";
+      this.women = this.models.filter(model => model.genderId === 2);
+    }
+  }
+
+  showAll() {
+    this.filterParameter = "All";
+  }
 }

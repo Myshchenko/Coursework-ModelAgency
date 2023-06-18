@@ -3,7 +3,7 @@
   <div class="card-body">
     <h5 class="card-title">{{event.details}}</h5>
     <p class="card-text">{{event.address}}</p>
-    <p class="card-text">{{event.targetDate}}</p>
+    <p class="card-text">{{ formatDate(event.targetDate) }}</p>
 
     <div *ngIf="event.eventType === 'Фотосесія'">
       <p><span class="badge bg-primary">{{event.eventType}}</span></p>

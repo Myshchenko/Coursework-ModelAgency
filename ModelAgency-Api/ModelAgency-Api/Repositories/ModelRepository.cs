@@ -30,7 +30,7 @@ namespace ModelAgency_Api.Repositories
 
         public async Task<List<Model>> GetModels()
         {
-            const string getAllModels = @"SELECT User.Id, User.Name, User.Surname, Model.Height, Model.Weight, Model.Chest, Model.Waist, Model.Hips, Model.Shoes, Model.Hair, User.Email
+            const string getAllModels = @"SELECT User.Id, User.Name, User.Surname, Model.Height, Model.Weight, Model.Chest, Model.Waist, Model.Hips, Model.Shoes, Model.Hair, User.Email, User.Gender_Id
                                           FROM User join Model ON User.Id == Model.ModelId";
 
             List<Model> models = new List<Model>();
@@ -56,9 +56,10 @@ namespace ModelAgency_Api.Repositories
                         model.Chest = reader.GetDouble(5);
                         model.Waist = reader.GetDouble(6);
                         model.Hips = reader.GetDouble(7);
-                        model.Hair = reader.GetString(8);
-                        model.Email = reader.GetString(9);
+                        model.Shoes = reader.GetDouble(8);
+                        model.Hair = reader.GetString(9);
                         model.Email = reader.GetString(10);
+                        model.GenderId = reader.GetInt32(11);
 
                         models.Add(model);
                     }

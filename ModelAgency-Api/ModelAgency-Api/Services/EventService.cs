@@ -47,7 +47,14 @@ namespace ModelAgency_Api.Services
 
         public async Task AddModelToTheEvent(ModelEventCoordinates modelEventCoordinates)
         {
-            await _eventRepository.AddModelToTheEvent(modelEventCoordinates);
+            if (modelEventCoordinates.IsValid())
+            {
+                await _eventRepository.AddModelToTheEvent(modelEventCoordinates);
+            }
+            else
+            {
+                throw new Exception("Invalid object");
+            }
         }
 
         public async Task DeleteEvent(int Id)
@@ -79,7 +86,14 @@ namespace ModelAgency_Api.Services
 
         public async Task UpdateModelEventResponce(ModelEventCoordinates modelEventCoordinates)
         {
-            await _eventRepository.UpdateModelEventResponce(modelEventCoordinates);
+            if (modelEventCoordinates.IsValid())
+            {
+                await _eventRepository.UpdateModelEventResponce(modelEventCoordinates);
+            }
+            else
+            {
+                throw new Exception("Invalid object");
+            }   
         }
     }
 }

@@ -20,7 +20,7 @@ namespace ModelAgency_Api.Controllers
         {
             try
             {
-var reportData = await _reportService.GetReportData();
+                var reportData = await _reportService.GetReportData();
 
                 if(reportData != null)
                 {

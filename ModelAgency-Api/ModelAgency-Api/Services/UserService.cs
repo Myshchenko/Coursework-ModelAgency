@@ -29,8 +29,6 @@ namespace ModelAgency_Api.Services
             {
                throw new Exception("Invalid user");
             }
-
-            
         }
     }
 }

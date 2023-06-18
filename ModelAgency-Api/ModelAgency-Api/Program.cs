@@ -1,6 +1,5 @@
 using ModelAgency_Api.Repositories;
 using ModelAgency_Api.Services;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

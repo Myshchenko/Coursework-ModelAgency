@@ -2,7 +2,7 @@
     <h5 class="card-header"></h5>
     <div class="card-body">
         <h5 class="card-title">{{report!.details}}</h5>
-        <p class="card-text">{{report!.address}}, {{report!.targetDate}}</p>
+        <p class="card-text">{{report!.address}}, {{formatDate(report!.targetDate)}}</p>
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label for="inputname">Запит прийняли:

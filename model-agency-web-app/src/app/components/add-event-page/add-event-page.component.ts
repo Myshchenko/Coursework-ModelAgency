@@ -7,64 +7,59 @@ import { User } from 'src/app/models/User';
 @Component({
   selector: 'app-add-event-page',
   templateUrl: './add-event-page.component.html',
-  styleUrls: ['./add-event-page.component.css']
+  styleUrls: ['./add-event-page.component.css'],
 })
 export class AddEventPageComponent {
- 
   event: Event = {} as Event;
   currentUser: User = {} as User;
 
-  constructor(private router: Router, private eventService: EventService){
+  constructor(private router: Router, private eventService: EventService) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
-      if(navigation.extras.state['event']){
+      if (navigation.extras.state['event']) {
         this.event = navigation.extras.state['event'];
       }
       this.currentUser = navigation.extras.state['currentUser'];
     }
   }
 
-  addEvent(){
-    if(this.event){
+  addEvent() {
+    if (this.event) {
       try {
-      const userId = localStorage.getItem('userId');
-      if (userId !== null) {
-      this.event.createdBy = parseInt(userId);
+        const userId = localStorage.getItem('userId');
+        if (userId !== null) {
+          this.event.createdBy = parseInt(userId);
+        }
+        this.eventService.addEvent(this.event);
+      } catch (error) {
+        console.error('Error');
+      }
     }
-
-      this.eventService.addEvent(this.event);
-      //this.router.navigate(['/events']);
-    }
-   catch (error){
-    console.log("AAAAAAAAAA ERRRRRRRRRRROOOOOOOOOOR");
-  }}
   }
 
-  updateEvent(){
-    if(this.event){
+  updateEvent() {
+    if (this.event) {
       try {
-      this.eventService.updateEvent(this.event);
-      //this.router.navigate(['/events']);
-      }
-      catch (error){
-        console.log("AAAAAAAAAA ERRRRRRRRRRROOOOOOOOOOR");
+        this.eventService.updateEvent(this.event);
+      } catch (error) {
+        console.error('Error');
       }
     }
   }
 
   getCurrentDateTime(): string {
-  const now = new Date();
-  now.setDate(now.getDate() + 1);
-  const year = now.getFullYear();
-  const month = this.padNumber(now.getMonth() + 1);
-  const day = this.padNumber(now.getDate());
-  const hour = this.padNumber(now.getHours());
-  const minute = this.padNumber(now.getMinutes());
+    const now = new Date();
+    now.setDate(now.getDate() + 1);
+    const year = now.getFullYear();
+    const month = this.padNumber(now.getMonth() + 1);
+    const day = this.padNumber(now.getDate());
+    const hour = this.padNumber(now.getHours());
+    const minute = this.padNumber(now.getMinutes());
 
-  return `${year}-${month}-${day}T${hour}:${minute}`;
-}
+    return `${year}-${month}-${day}T${hour}:${minute}`;
+  }
 
-private padNumber(number: number): string {
-  return number.toString().padStart(2, '0');
-}
+  private padNumber(number: number): string {
+    return number.toString().padStart(2, '0');
+  }
 }

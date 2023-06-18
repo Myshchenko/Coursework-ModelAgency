@@ -12,8 +12,6 @@ import { ModelEventResponceType } from 'src/app/models/ModelEventResponceType';
   styleUrls: ['./add-model-to-event.component.css']
 })
 export class AddModelToEventComponent {
-
-  
   model: Model | undefined;
 
   events: Event[] | undefined;
@@ -43,7 +41,6 @@ export class AddModelToEventComponent {
 
   onSelectEvent(event: any) {
     this.selectedEventId = event.target.value;
-    console.log('Selected ID:', this.selectedEventId);
   }
 
   addModelToTheEvent(){
